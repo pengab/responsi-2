@@ -1,0 +1,147 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Data Inventaris Kantor</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ng-container *ngIf="dataBarang.length > 0; else emptyState">
+    <ion-card *ngFor="let item of dataBarang">
+      <ion-item>
+        <ion-label>
+          {{item.nama}}
+          <p>{{item.deskripsi}}</p>
+        </ion-label>
+        <ion-button color="danger" slot="end" (click)="hapusBarang(item.id)">
+          Hapus Barang
+        </ion-button>
+        <ion-button expand="block" (click)="open_modal_edit(true,item.id)">
+          Edit Barang
+        </ion-button>
+      </ion-item>
+    </ion-card>
+  </ng-container>
+  <ng-template #emptyState>
+    <p class="ion-text-center ion-align-items-center">Data Inventaris Masih Kosong</p>
+  </ng-template>
+  <ion-toolbar slot="fixed" style="bottom: 0; left: 0; right: 0;">
+    <ion-buttons slot="start">
+      <ion-button (click)="logout()">
+        Logout
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <!-- Tambahkan spacer untuk memberikan ruang antara tombol logout dan tombol tambah -->
+      <ion-button style="margin-right: 8px;"></ion-button>
+      <!-- Tombol tambah data -->
+      <ion-fab vertical="end" horizontal="end">
+        <ion-fab-button (click)="open_modal_tambah(true)">
+          <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </ion-buttons>
+  </ion-toolbar>
+  <!-- ini untuk modal tambah -->
+  <ion-modal [isOpen]="modal_tambah">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancel()">Batal</ion-button>
+          </ion-buttons>
+          <ion-title>Tambah Barang</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-input
+            label="Nama Barang"
+            labelPlacement="floating"
+            required
+            [(ngModel)]="nama"
+            placeholder="Masukkan Nama Barang"
+            type="text"
+          >
+          </ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="Deskripsi Barang"
+            labelPlacement="floating"
+            required
+            [(ngModel)]="deskripsi"
+            placeholder="Masukkan Deskripsi Barang"
+            type="text"
+          >
+          </ion-input>
+        </ion-item>
+        <ion-row>
+          <ion-col>
+            <ion-fab slot="fixed" vertical="bottom" horizontal="end"> </ion-fab>
+            <ion-button
+              type="button"
+              (click)="tambahBarang()"
+              color="primary"
+              shape="full"
+              expand="block"
+              >Tambah Barang
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- ini untuk modal edit -->
+  <ion-modal [isOpen]="modal_edit">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancel()">Batal</ion-button>
+          </ion-buttons>
+          <ion-title>Edit Barang</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-input
+            label="Nama Barang"
+            labelPlacement="floating"
+            required
+            [(ngModel)]="nama"
+            placeholder="Masukkan Nama Barang"
+            type="text"
+          >
+          </ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="Deskripsi Barang"
+            labelPlacement="floating"
+            required
+            [(ngModel)]="deskripsi"
+            placeholder="Masukkan Deskripsi Barang"
+            type="text"
+          >
+          </ion-input>
+        </ion-item>
+        <ion-input required [(ngModel)]="id" type="hidden"> </ion-input>
+        <ion-row>
+          <ion-col>
+            <ion-button
+              type="button"
+              (click)="editBarang()"
+              color="primary"
+              shape="full"
+              expand="block"
+              >Edit Barang
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
